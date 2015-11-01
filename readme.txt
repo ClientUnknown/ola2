@@ -1,0 +1,1 @@
+CSCI 3080 ola2, ternary tree
