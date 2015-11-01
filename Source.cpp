@@ -15,6 +15,8 @@ const int ADJ_COLS = 10;
 void initializeTree (int arrayRep[][REP_COLS], int adjMatrix[][ADJ_COLS], int& numNodes);
 void displayTree (int arrayRep[][REP_COLS], int adjMatrix[][ADJ_COLS], int numNodes);
 void traversePre (int arrayRep[][REP_COLS], int row, int col);
+void traverseIn (int arrayRep[][REP_COLS], int row, int col);
+void traversePost (int arrayRep[][REP_COLS], int row, int col);
 
 using namespace std;
 
@@ -24,8 +26,20 @@ int main () {
 	int numNodes = 0;
 
 	initializeTree(arrayRep, adjMatrix, numNodes);
+
 	displayTree(arrayRep, adjMatrix, numNodes);
+
+	cout << "The preorder traversal is: \n\n";
 	traversePre(arrayRep, 0, 0);
+	cout << endl << endl;
+
+	cout << "The inorder traversal is: \n\n";
+	traverseIn(arrayRep, 0, 0);
+	cout << endl << endl;
+
+	cout << "The postorder traversal is: \n\n";
+	traversePost(arrayRep, 0, 0);
+	cout << endl;
 
 	return 0;
 }
@@ -85,5 +99,36 @@ void displayTree (int arrayRep[][REP_COLS], int adjMatrix[][ADJ_COLS], int numNo
 
 // Displays a pre-order traversal of the tree
 void traversePre (int arrayRep[][REP_COLS], int row, int col) {
-	
+	if (row == 0 && col == 0)
+		cout << "1" << " ";
+	if (arrayRep[row][col] != -1) {
+		cout << arrayRep[row][col] << " ";
+		traversePre(arrayRep, arrayRep[row][col]-1, 0);
+		traversePre(arrayRep, arrayRep[row][col]-1, 1);
+		traversePre(arrayRep, arrayRep[row][col]-1, 2);
+	}
+}
+
+// Displays an in-order traversal of the tree
+void traverseIn (int arrayRep[][REP_COLS], int row, int col) {
+	if (arrayRep[row][col] != -1) {
+		traverseIn(arrayRep, arrayRep[row][col]-1, 0);
+		cout << arrayRep[row][col] << " ";
+		traverseIn(arrayRep, arrayRep[row][col]-1, 1);
+		traverseIn(arrayRep, arrayRep[row][col]-1, 2);
+		if (row == 0 && col == 0)
+			cout << "1" << " ";
+	}
+}
+
+// Displays a post-order traversal of the tree
+void traversePost (int arrayRep[][REP_COLS], int row, int col) {
+	if (arrayRep[row][col] != -1) {
+		traversePost(arrayRep, arrayRep[row][col]-1, 0);
+		traversePost(arrayRep, arrayRep[row][col]-1, 1);
+		traversePost(arrayRep, arrayRep[row][col]-1, 2);
+		cout << arrayRep[row][col] << " ";
+		if (row == 0 && col == 0)
+			cout << "1" << " ";
+	}
 }
