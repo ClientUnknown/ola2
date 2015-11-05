@@ -1,7 +1,9 @@
 // Muhammad Abed
 // CSCI 3080-001
 // Lab 2, ola2
-// 11/4/15
+// 11/9/15
+// This program stores a ternary tree in both array representation and as an adjacency matrix.
+// It also displays the pre-order, in-order, and post-order traversals of the tree.
 
 #include <iostream>
 #include <iomanip>
@@ -14,31 +16,31 @@ const int ADJ_COLS = 10;
 // Function prototypes
 void initializeTree (int arrayRep[][REP_COLS], int adjMatrix[][ADJ_COLS], int& numNodes);
 void displayTree (int arrayRep[][REP_COLS], int adjMatrix[][ADJ_COLS], int numNodes);
-void traversePre (int arrayRep[][REP_COLS], int row, int col);
-void traverseIn (int arrayRep[][REP_COLS], int row, int col);
-void traversePost (int arrayRep[][REP_COLS], int row, int col);
+void traversePre (int arrayRep[][REP_COLS], int row);
+void traverseIn (int arrayRep[][REP_COLS], int row);
+void traversePost (int arrayRep[][REP_COLS], int row);
 
 using namespace std;
 
 int main () {
-	int arrayRep[ROWS][REP_COLS];
-	int adjMatrix[ROWS][ADJ_COLS];
-	int numNodes = 0;
+	int arrayRep[ROWS][REP_COLS];		// Array representation of the ternary tree
+	int adjMatrix[ROWS][ADJ_COLS];		// Adjacency matrix for the ternary tree
+	int numNodes = 0;					// The number of nodes, to be chosen by user input
 
 	initializeTree(arrayRep, adjMatrix, numNodes);
 
 	displayTree(arrayRep, adjMatrix, numNodes);
 
 	cout << "The preorder traversal is: \n\n";
-	traversePre(arrayRep, 0, 0);
+	traversePre(arrayRep, 0);
 	cout << endl << endl;
 
 	cout << "The inorder traversal is: \n\n";
-	traverseIn(arrayRep, 0, 0);
+	traverseIn(arrayRep, 0);
 	cout << endl << endl;
 
 	cout << "The postorder traversal is: \n\n";
-	traversePost(arrayRep, 0, 0);
+	traversePost(arrayRep, 0);
 	cout << endl;
 
 	return 0;
@@ -98,37 +100,34 @@ void displayTree (int arrayRep[][REP_COLS], int adjMatrix[][ADJ_COLS], int numNo
 }
 
 // Displays a pre-order traversal of the tree
-void traversePre (int arrayRep[][REP_COLS], int row, int col) {
-	if (row == 0 && col == 0)
-		cout << "1" << " ";
-	if (arrayRep[row][col] != -1) {
-		cout << arrayRep[row][col] << " ";
-		traversePre(arrayRep, arrayRep[row][col]-1, 0);
-		traversePre(arrayRep, arrayRep[row][col]-1, 1);
-		traversePre(arrayRep, arrayRep[row][col]-1, 2);
-	}
+void traversePre (int arrayRep[][REP_COLS], int row) {
+	cout << row+1 << " ";
+	if (arrayRep[row][0] != -1)
+		traversePre(arrayRep, arrayRep[row][0]-1);
+	if (arrayRep[row][1] != -1) 
+		traversePre(arrayRep, arrayRep[row][1]-1);
+	if (arrayRep[row][2] != -1)
+		traversePre(arrayRep, arrayRep[row][2]-1);
 }
 
 // Displays an in-order traversal of the tree
-void traverseIn (int arrayRep[][REP_COLS], int row, int col) {
-	if (arrayRep[row][col] != -1) {
-		traverseIn(arrayRep, arrayRep[row][col]-1, 0);
-		cout << arrayRep[row][col] << " ";
-		traverseIn(arrayRep, arrayRep[row][col]-1, 1);
-		traverseIn(arrayRep, arrayRep[row][col]-1, 2);
-		if (row == 0 && col == 0)
-			cout << "1" << " ";
-	}
+void traverseIn (int arrayRep[][REP_COLS], int row) {
+	if (arrayRep[row][0] != -1)
+		traverseIn(arrayRep, arrayRep[row][0]-1);
+	cout << row+1 << " ";
+	if (arrayRep[row][1] != -1) 
+		traverseIn(arrayRep, arrayRep[row][1]-1);
+	if (arrayRep[row][2] != -1)
+		traverseIn(arrayRep, arrayRep[row][2]-1);
 }
 
 // Displays a post-order traversal of the tree
-void traversePost (int arrayRep[][REP_COLS], int row, int col) {
-	if (arrayRep[row][col] != -1) {
-		traversePost(arrayRep, arrayRep[row][col]-1, 0);
-		traversePost(arrayRep, arrayRep[row][col]-1, 1);
-		traversePost(arrayRep, arrayRep[row][col]-1, 2);
-		cout << arrayRep[row][col] << " ";
-		if (row == 0 && col == 0)
-			cout << "1" << " ";
-	}
+void traversePost (int arrayRep[][REP_COLS], int row) {
+	if (arrayRep[row][0] != -1)
+		traversePost(arrayRep, arrayRep[row][0]-1);
+	if (arrayRep[row][1] != -1) 
+		traversePost(arrayRep, arrayRep[row][1]-1);
+	if (arrayRep[row][2] != -1)
+		traversePost(arrayRep, arrayRep[row][2]-1);
+	cout << row+1 << " ";
 }
